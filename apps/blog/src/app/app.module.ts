@@ -1,12 +1,38 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 
 import { AppComponent } from './app.component';
+import { ContentComponent } from './content/content.component';
+
+
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, HttpClientModule],
+  declarations: [AppComponent, ContentComponent],
+  imports: [
+    BrowserModule, 
+    HttpClientModule, 
+    MarkdownModule.forRoot({
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          gfm: true,
+          breaks: true,
+          pedantic: false,
+          smartLists: true,
+          smartypants: true,
+        },
+      }
+    }),
+    RouterModule.forRoot([
+      { path: '', component: ContentComponent, data: { content: 'home' }},
+      { path: 'about', component: ContentComponent, data: { content: 'about' }},
+      { path: '**', component: ContentComponent, data: { content: 'not-found' } },
+    ])
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -1,12 +1,12 @@
-import { NgModule, SecurityContext } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { HttpClientModule } from "@angular/common/http";
-import { RouterModule } from "@angular/router";
+import { NgModule, SecurityContext } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
-import { MarkdownModule, MarkedOptions } from "ngx-markdown";
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 
-import { AppComponent } from "./app.component";
-import { ContentComponent } from "./content/content.component";
+import { AppComponent } from './app.component';
+import { ContentComponent } from './content/content.component';
 
 @NgModule({
   declarations: [AppComponent, ContentComponent],
@@ -27,17 +27,17 @@ import { ContentComponent } from "./content/content.component";
       sanitize: SecurityContext.NONE,
     }),
     RouterModule.forRoot([
-      { path: "", component: ContentComponent, data: { content: "home" } },
+      { path: '', component: ContentComponent, data: { content: 'home' } },
       {
-        path: "about",
+        path: 'about',
         component: ContentComponent,
-        data: { content: "about" },
+        data: { content: 'about' },
       },
-      { path: "posts/:slug", component: ContentComponent },
+      { path: 'posts/:slug', component: ContentComponent },
       {
-        path: "**",
+        path: '**',
         component: ContentComponent,
-        data: { content: "not-found" },
+        data: { content: 'not-found' },
       },
     ]),
   ],

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, SecurityContext } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -25,11 +25,13 @@ import { ContentComponent } from './content/content.component';
           smartLists: true,
           smartypants: true,
         },
-      }
+      },
+      sanitize: SecurityContext.NONE
     }),
     RouterModule.forRoot([
       { path: '', component: ContentComponent, data: { content: 'home' }},
       { path: 'about', component: ContentComponent, data: { content: 'about' }},
+      { path: 'posts/:slug', component: ContentComponent },
       { path: '**', component: ContentComponent, data: { content: 'not-found' } },
     ])
   ],

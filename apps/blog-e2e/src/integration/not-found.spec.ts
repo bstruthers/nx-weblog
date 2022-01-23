@@ -9,6 +9,8 @@ describe('When rendering the Not Found page', () => {
   });
 
   it('should show the not found page content', () => {
-    cy.get('.blog-content').should('exist').should('contain.text', 'not-found page.md');
+    cy.get('.blog-content')
+      .should('exist')
+      .should('contain.text', 'not-found page.md');
   });
 });

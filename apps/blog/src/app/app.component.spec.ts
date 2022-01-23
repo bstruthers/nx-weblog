@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 
 import { AppComponent } from './app.component';
 import { Title } from '@angular/platform-browser';
@@ -21,7 +24,7 @@ describe('AppComponent', () => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     httpMock = TestBed.inject(HttpTestingController);
-    
+
     fixture.detectChanges();
   });
 

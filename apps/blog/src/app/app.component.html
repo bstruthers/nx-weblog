@@ -1,7 +1,6 @@
 <header class="blog-header">
   <ng-container *ngIf="header; else defaultHeaderTemplate">
-    <markdown [data]="header">
-    </markdown>
+    <markdown [data]="header"> </markdown>
   </ng-container>
   <ng-template #defaultHeaderTemplate>
     <h1>{{ title }}</h1>
@@ -13,11 +12,9 @@
 </main>
 
 <aside class="blog-sidebar" *ngIf="sidebar">
-  <markdown [data]="sidebar">
-  </markdown>
+  <markdown [data]="sidebar"> </markdown>
 </aside>
 
 <footer class="blog-footer" *ngIf="footer">
-  <markdown [data]="footer">
-  </markdown>
+  <markdown [data]="footer"> </markdown>
 </footer>

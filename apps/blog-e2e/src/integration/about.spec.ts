@@ -9,6 +9,8 @@ describe('When rendering the about page', () => {
   });
 
   it('should show the about page content', () => {
-    cy.get('.blog-content').should('exist').should('contain.text', 'about page.md');
+    cy.get('.blog-content')
+      .should('exist')
+      .should('contain.text', 'about page.md');
   });
 });

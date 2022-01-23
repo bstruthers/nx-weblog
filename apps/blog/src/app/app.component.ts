@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
 
@@ -9,7 +14,7 @@ import { combineLatest } from 'rxjs';
   selector: 'nx-weblog-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
   title = '';
@@ -20,7 +25,8 @@ export class AppComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private titleService: Title,
-    private changeDetectionRef: ChangeDetectorRef) {}
+    private changeDetectionRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     combineLatest([
@@ -28,7 +34,7 @@ export class AppComponent implements OnInit {
       this.http.get('/assets/header.md', { responseType: 'text' }),
       this.http.get('/assets/sidebar.md', { responseType: 'text' }),
       this.http.get('/assets/footer.md', { responseType: 'text' }),
-    ]) .subscribe(([config, header, sidebar, footer]) => {
+    ]).subscribe(([config, header, sidebar, footer]) => {
       const parsed = YAML.parse(config);
       this.title = parsed.title;
       this.titleService.setTitle(this.title);

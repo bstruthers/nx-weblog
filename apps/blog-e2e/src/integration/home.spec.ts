@@ -9,6 +9,8 @@ describe('When rendering the home page', () => {
   });
 
   it('should show the home page content', () => {
-    cy.get('.blog-content').should('exist').should('contain.text', 'home page.md');
+    cy.get('.blog-content')
+      .should('exist')
+      .should('contain.text', 'home page.md');
   });
 });

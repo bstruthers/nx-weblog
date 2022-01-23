@@ -1,7 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, convertToParamMap, Data, ParamMap, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  convertToParamMap,
+  Data,
+  ParamMap,
+  Router,
+} from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
 import { BehaviorSubject } from 'rxjs';
 
@@ -18,24 +27,23 @@ describe('ContentComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, MarkdownModule.forRoot()],
-      declarations: [ ContentComponent ],
+      declarations: [ContentComponent],
       providers: [
         {
           provide: ActivatedRoute,
           useValue: {
             data: dataSubject$.asObservable(),
-            paramMap: paramsSubject$.asObservable()
-          }
+            paramMap: paramsSubject$.asObservable(),
+          },
         },
         {
           provide: Router,
           useValue: {
-            navigate: () => {}
-          }
-        }
-      ]
-    })
-    .compileComponents();
+            navigate: () => {},
+          },
+        },
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -58,7 +66,7 @@ describe('ContentComponent', () => {
 
     expect(component.content).toBe('# content.md');
   });
-  
+
   it('should use the slug on the route to determine which content to render', () => {
     paramsSubject$.next(convertToParamMap({ slug: 'slug' }));
 
@@ -74,7 +82,7 @@ describe('ContentComponent', () => {
     paramsSubject$.next(convertToParamMap({ slug: 'not-found' }));
 
     const contentRequest = httpMock.expectOne('/assets/posts/not-found.md');
-    contentRequest.flush('', new HttpErrorResponse( { error: 404 }));
+    contentRequest.flush('', new HttpErrorResponse({ error: 404 }));
 
     expect(router.navigate).toHaveBeenCalledWith(['not-found']);
   });

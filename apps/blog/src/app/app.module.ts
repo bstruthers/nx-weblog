@@ -8,13 +8,11 @@ import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { AppComponent } from './app.component';
 import { ContentComponent } from './content/content.component';
 
-
-
 @NgModule({
   declarations: [AppComponent, ContentComponent],
   imports: [
-    BrowserModule, 
-    HttpClientModule, 
+    BrowserModule,
+    HttpClientModule,
     MarkdownModule.forRoot({
       markedOptions: {
         provide: MarkedOptions,
@@ -26,14 +24,22 @@ import { ContentComponent } from './content/content.component';
           smartypants: true,
         },
       },
-      sanitize: SecurityContext.NONE
+      sanitize: SecurityContext.NONE,
     }),
     RouterModule.forRoot([
-      { path: '', component: ContentComponent, data: { content: 'home' }},
-      { path: 'about', component: ContentComponent, data: { content: 'about' }},
+      { path: '', component: ContentComponent, data: { content: 'home' } },
+      {
+        path: 'about',
+        component: ContentComponent,
+        data: { content: 'about' },
+      },
       { path: 'posts/:slug', component: ContentComponent },
-      { path: '**', component: ContentComponent, data: { content: 'not-found' } },
-    ])
+      {
+        path: '**',
+        component: ContentComponent,
+        data: { content: 'not-found' },
+      },
+    ]),
   ],
   providers: [],
   bootstrap: [AppComponent],

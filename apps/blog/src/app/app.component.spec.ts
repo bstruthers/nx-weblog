@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { AppComponent } from './app.component';
 import { Title } from '@angular/platform-browser';
+import { MarkdownModule } from 'ngx-markdown';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -11,7 +12,7 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, MarkdownModule.forRoot()],
       declarations: [AppComponent],
     }).compileComponents();
   });
@@ -28,14 +29,28 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should pull the configuration file and set the title on init', () => {
+  it('should request the configuration file and structural content, and set the title and content on init', () => {
     const titleService = TestBed.inject(Title);
     jest.spyOn(titleService, 'setTitle');
 
-    const httpRequest = httpMock.expectOne('/assets/config.yaml');
-    httpRequest.flush('title: Hello, there');
+    const configRequest = httpMock.expectOne('/assets/config.yaml');
+    configRequest.flush('title: Hello, there');
+
+    const headerRequest = httpMock.expectOne('/assets/header.md');
+    headerRequest.flush('# header.md');
+
+    const sidebareRequest = httpMock.expectOne('/assets/sidebar.md');
+    sidebareRequest.flush('# sidebar.md');
+
+    const footerRequest = httpMock.expectOne('/assets/footer.md');
+    footerRequest.flush('# footer.md');
+
     httpMock.verify();
 
+    expect(component.title).toBe('Hello, there');
     expect(titleService.setTitle).toHaveBeenCalledWith('Hello, there');
+    expect(component.header).toBe('# header.md');
+    expect(component.sidebar).toBe('# sidebar.md');
+    expect(component.footer).toBe('# footer.md');
   });
 });

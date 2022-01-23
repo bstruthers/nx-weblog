@@ -18,8 +18,19 @@
             "tsConfig": "apps/blog/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["apps/blog/src/favicon.ico", "apps/blog/src/assets"],
-            "styles": ["apps/blog/src/styles.scss"],
-            "scripts": []
+            "styles": [
+              "apps/blog/src/styles.scss",
+              "node_modules/prismjs/themes/prism-tomorrow.css"
+            ],
+            "scripts": [
+              "node_modules/marked/lib/marked.js",
+              "node_modules/prismjs/prism.js",
+              "node_modules/prismjs/components/prism-csharp.min.js",
+              "node_modules/prismjs/components/prism-css.min.js",
+              "node_modules/prismjs/components/prism-markup-templating.min.js",
+              "node_modules/prismjs/components/prism-typescript.min.js",
+              "node_modules/prismjs/components/prism-yaml.min.js"
+            ]
           },
           "configurations": {
             "production": {

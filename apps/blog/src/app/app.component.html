@@ -1,20 +1,25 @@
-<header class="blog-header">
-  <ng-container *ngIf="header; else defaultHeaderTemplate">
-    <markdown [data]="header"> </markdown>
-  </ng-container>
-  <ng-template #defaultHeaderTemplate>
-    <h1>{{ title }}</h1>
-  </ng-template>
-</header>
+<div class="blog">
+  <header class="blog-header">
+    <ng-container *ngIf="header; else defaultHeaderTemplate">
+      <markdown [data]="header">
+      </markdown>
+    </ng-container>
+    <ng-template #defaultHeaderTemplate>
+      <h1>{{ title }}</h1>
+    </ng-template>
+  </header>
 
-<main class="blog-content">
-  <router-outlet></router-outlet>
-</main>
+  <main class="blog-content">
+    <router-outlet></router-outlet>
+  </main>
 
-<aside class="blog-sidebar" *ngIf="sidebar">
-  <markdown [data]="sidebar"> </markdown>
-</aside>
+  <aside class="blog-sidebar" *ngIf="sidebar">
+    <markdown [data]="sidebar">
+    </markdown>
+  </aside>
 
-<footer class="blog-footer" *ngIf="footer">
-  <markdown [data]="footer"> </markdown>
-</footer>
+  <footer class="blog-footer" *ngIf="footer">
+    <markdown [data]="footer">
+    </markdown>
+  </footer>
+</div>

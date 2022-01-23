@@ -1,0 +1,45 @@
+/* Default styling, update or add your own styling */
+
+.blog {
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: auto auto 1fr auto 
+}
+
+@media (min-width: 1200px) {
+  .blog {
+    grid-template-areas: 
+    'header header'
+    'content sidebar'
+    'footer footer';
+    grid-template-rows: auto 1fr auto;
+    gap: 0;
+  }
+
+  .blog-header {
+    grid-area: header;
+    border-bottom: solid 1px #eee;
+    padding: 1rem;
+  }
+
+  .blog-content {
+    grid-area: content;
+    width: 900px;
+    justify-self: right;
+    border-right: solid 1px #eee;
+    padding: 1rem;
+  }
+
+  .blog-sidebar {
+    grid-area: sidebar;
+    width: 300px;
+    justify-self: left;
+    padding: 1rem;
+  }
+
+  .blog-footer {
+    grid-area: footer;
+    border-top: solid 1px #eee;
+    padding: 1rem;
+  }
+}

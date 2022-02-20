@@ -133,4 +133,4 @@ dist
 .angular/cache/
 
 # Blog stuff
-apps/blog/src/assets/posts/
+apps/blog/src/assets/content/posts/

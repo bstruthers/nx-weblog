@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import {
   Component,
   OnInit,
@@ -6,20 +5,14 @@ import {
   OnDestroy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
-import {
-  catchError,
-  combineLatest,
-  of,
-  Subject,
-  switchMap,
-  takeUntil,
-} from 'rxjs';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'nx-weblog-content',
   templateUrl: './content.component.html',
-  styleUrls: ['./content.component.sass'],
+  styleUrls: ['./content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentComponent implements OnInit, OnDestroy {
@@ -28,37 +21,25 @@ export class ContentComponent implements OnInit, OnDestroy {
   content = '';
 
   constructor(
-    private http: HttpClient,
     private route: ActivatedRoute,
-    private router: Router,
+    private title: Title,
     private changeDetectionRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    combineLatest([this.route.data, this.route.paramMap])
-      .pipe(
-        switchMap(([d, p]: [Data, ParamMap]) => {
-          let content = d['content'];
+    this.route.data.pipe(takeUntil(this.unsubscribe$)).subscribe((d) => {
+      this.content = d['content'];
 
-          if (p.has('slug')) {
-            content = `posts/${p.get('slug')}`;
-          }
+      // Update the title with the header of the content
+      const split = this.content.split('\n');
+      if (split.length && split[0].startsWith('# ')) {
+        this.title.setTitle(
+          `${split[0].replace('# ', '')} — ${this.title.getTitle()}`
+        );
+      }
 
-          return this.http
-            .get(`/assets/${content}.md`, { responseType: 'text' })
-            .pipe(
-              catchError(() => {
-                this.router.navigate(['not-found']);
-                return '';
-              })
-            );
-        }),
-        takeUntil(this.unsubscribe$)
-      )
-      .subscribe((content) => {
-        this.content = content;
-        this.changeDetectionRef.detectChanges();
-      });
+      this.changeDetectionRef.detectChanges();
+    });
   }
 
   ngOnDestroy(): void {

@@ -20,7 +20,15 @@ export class ContentResolver implements Resolve<string> {
   ): Observable<string> {
     let content = route.data['contentFile'];
 
-    if (route.paramMap.has('slug')) {
+    if (
+      route.paramMap.has('year') &&
+      route.paramMap.has('month') &&
+      route.paramMap.has('slug')
+    ) {
+      content = `posts/${route.paramMap.get('year')}/${route.paramMap.get(
+        'month'
+      )}/${route.paramMap.get('slug')}`;
+    } else if (route.paramMap.has('slug')) {
       content = `posts/${route.paramMap.get('slug')}`;
     }
 

@@ -4,10 +4,12 @@ import {
   ChangeDetectionStrategy,
   OnDestroy,
   ChangeDetectorRef,
+  HostListener,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { AnchorService } from '../anchor.service';
 
 @Component({
   selector: 'nx-weblog-content',
@@ -23,7 +25,8 @@ export class ContentComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private title: Title,
-    private changeDetectionRef: ChangeDetectorRef
+    private changeDetectionRef: ChangeDetectorRef,
+    private anchorService: AnchorService
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +43,11 @@ export class ContentComponent implements OnInit, OnDestroy {
 
       this.changeDetectionRef.detectChanges();
     });
+  }
+
+  @HostListener('click', ['$event'])
+  onDocumentClick(event: Event) {
+    this.anchorService.interceptClick(event);
   }
 
   ngOnDestroy(): void {

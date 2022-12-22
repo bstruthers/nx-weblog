@@ -94,9 +94,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/blog"],
+          "outputs": ["{workspaceRoot}/coverage/apps/blog"],
           "options": {
-            "jestConfig": "apps/blog/jest.config.js",
+            "jestConfig": "apps/blog/jest.config.ts",
             "passWithNoTests": true
           }
         }

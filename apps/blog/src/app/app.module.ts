@@ -75,6 +75,13 @@ import { BlogComponent } from './blog/blog.component';
             },
           },
           {
+            path: 'tags/:tag',
+            component: ContentComponent,
+            resolve: {
+              content: ContentResolver,
+            },
+          },
+          {
             path: '**',
             component: ContentComponent,
             data: { contentFile: 'not-found' },

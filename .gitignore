@@ -131,6 +131,3 @@ dist
 
 # Angular Cache
 .angular/cache/
-
-# Blog stuff
-apps/blog/src/assets/content/posts/

@@ -30,6 +30,8 @@ export class ContentResolver implements Resolve<string> {
       )}/${route.paramMap.get('slug')}`;
     } else if (route.paramMap.has('slug')) {
       content = `posts/${route.paramMap.get('slug')}`;
+    } else if (route.paramMap.has('tag')) {
+      content = `tags/${route.paramMap.get('tag')}`;
     }
 
     return this.http

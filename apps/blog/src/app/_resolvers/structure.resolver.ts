@@ -1,10 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot,
-} from '@angular/router';
+import { Resolve } from '@angular/router';
 import { combineLatest, Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
@@ -13,10 +9,7 @@ import { combineLatest, Observable, of, switchMap } from 'rxjs';
 export class StructureResolver implements Resolve<Record<string, string>> {
   constructor(private http: HttpClient) {}
 
-  resolve(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<Record<string, string>> {
+  resolve(): Observable<Record<string, string>> {
     return combineLatest([
       this.http.get('/assets/content/header.md', { responseType: 'text' }),
       this.http.get('/assets/content/sidebar.md', { responseType: 'text' }),

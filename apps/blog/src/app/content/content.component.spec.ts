@@ -1,45 +1,29 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  ActivatedRoute,
-  convertToParamMap,
-  Data,
-  ParamMap,
-  Router,
-} from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Data } from '@angular/router';
+
 import { MarkdownModule } from 'ngx-markdown';
 import { BehaviorSubject } from 'rxjs';
+
+import { AnchorService } from '../anchor.service';
 
 import { ContentComponent } from './content.component';
 
 describe('ContentComponent', () => {
   let fixture: ComponentFixture<ContentComponent>;
   let component: ContentComponent;
-  let httpMock: HttpTestingController;
 
-  let dataSubject$ = new BehaviorSubject<Data>({});
-  let paramsSubject$ = new BehaviorSubject<ParamMap>(convertToParamMap({}));
+  const dataSubject$ = new BehaviorSubject<Data>({});
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, MarkdownModule.forRoot()],
+      imports: [MarkdownModule.forRoot()],
       declarations: [ContentComponent],
       providers: [
         {
           provide: ActivatedRoute,
           useValue: {
             data: dataSubject$.asObservable(),
-            paramMap: paramsSubject$.asObservable(),
-          },
-        },
-        {
-          provide: Router,
-          useValue: {
-            navigate: () => {},
           },
         },
       ],
@@ -49,7 +33,6 @@ describe('ContentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ContentComponent);
     component = fixture.componentInstance;
-    httpMock = TestBed.inject(HttpTestingController);
 
     fixture.detectChanges();
   });
@@ -58,32 +41,34 @@ describe('ContentComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should pull the content from the route to determine which content to render', () => {
-    dataSubject$.next({ content: 'content-file' });
+  it('should combine the content title with the existing title', () => {
+    const title = TestBed.inject(Title);
+    jest.spyOn(title, 'setTitle');
+    jest.spyOn(title, 'getTitle').mockReturnValue('Get Title');
 
-    const contentRequest = httpMock.expectOne('/assets/content-file.md');
-    contentRequest.flush('# content.md');
+    dataSubject$.next({ content: '# Content Title' });
 
-    expect(component.content).toBe('# content.md');
+    expect(title.setTitle).toHaveBeenCalledWith('Content Title — Get Title');
   });
 
-  it('should use the slug on the route to determine which content to render', () => {
-    paramsSubject$.next(convertToParamMap({ slug: 'slug' }));
+  it('should not combine the content title with the existing title when there is no title', () => {
+    const title = TestBed.inject(Title);
+    jest.spyOn(title, 'setTitle');
+    jest.spyOn(title, 'getTitle').mockReturnValue('Get Title');
 
-    const contentRequest = httpMock.expectOne('/assets/posts/slug.md');
-    contentRequest.flush('# slug.md');
+    dataSubject$.next({ content: 'Not a Content Title' });
 
-    expect(component.content).toBe('# slug.md');
+    expect(title.setTitle).not.toHaveBeenCalled();
   });
 
-  it('should redirect to the not found page when there is no content', () => {
-    const router = TestBed.inject(Router);
-    jest.spyOn(router, 'navigate');
-    paramsSubject$.next(convertToParamMap({ slug: 'not-found' }));
+  it('should use the anchor service to handle click events', () => {
+    const anchorsAway = TestBed.inject(AnchorService);
+    jest.spyOn(anchorsAway, 'interceptClick');
 
-    const contentRequest = httpMock.expectOne('/assets/posts/not-found.md');
-    contentRequest.flush('', new HttpErrorResponse({ error: 404 }));
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    component.onDocumentClick({});
 
-    expect(router.navigate).toHaveBeenCalledWith(['not-found']);
+    expect(anchorsAway.interceptClick).toHaveBeenCalledWith({});
   });
 });

@@ -44,7 +44,7 @@ export class AnchorService {
     });
   }
 
-  navigate(url: string, replaceUrl = false) {
+  navigate(url: string, replaceUrl: boolean) {
     const urlTree = this.getUrlTree(url);
 
     this.router.navigated = false;
@@ -62,7 +62,7 @@ export class AnchorService {
       return;
     }
 
-    this.navigate(`/${href}`);
+    this.navigate(`/${href}`, false);
     event.preventDefault();
   }
 }

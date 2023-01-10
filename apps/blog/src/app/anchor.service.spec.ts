@@ -124,12 +124,15 @@ describe('AnchorService', () => {
     jest.spyOn(service, 'isExternalUrl').mockReturnValue(true);
     const mockEvent = {
       target: document.createElement('a'),
+      preventDefault: () => {
+        return;
+      },
     };
-    mockEvent.target.href = '/test';
+    mockEvent.target.href = 'test';
     // @ts-ignore
     service.interceptClick(mockEvent);
 
-    expect(service.isExternalUrl).toHaveBeenCalledWith('/test');
+    expect(service.isExternalUrl).toHaveBeenCalledWith('test');
     expect(service.navigate).not.toHaveBeenCalled();
 
     // Anchor that's internal
@@ -137,6 +140,6 @@ describe('AnchorService', () => {
     // @ts-ignore
     service.interceptClick(mockEvent);
 
-    expect(service.navigate).toHaveBeenCalledWith('/test');
+    expect(service.navigate).toHaveBeenCalledWith('/test', false);
   });
 });

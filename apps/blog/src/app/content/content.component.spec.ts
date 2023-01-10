@@ -4,12 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
-import {
-  ActivatedRoute,
-  convertToParamMap,
-  Data,
-  ParamMap,
-} from '@angular/router';
+import { ActivatedRoute, Data } from '@angular/router';
 
 import { MarkdownModule } from 'ngx-markdown';
 import { BehaviorSubject } from 'rxjs';
@@ -24,7 +19,6 @@ describe('ContentComponent', () => {
   let httpMock: HttpTestingController;
 
   let dataSubject$ = new BehaviorSubject<Data>({});
-  let paramsSubject$ = new BehaviorSubject<ParamMap>(convertToParamMap({}));
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -35,7 +29,6 @@ describe('ContentComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             data: dataSubject$.asObservable(),
-            paramMap: paramsSubject$.asObservable(),
           },
         },
       ],

@@ -14,7 +14,7 @@ describe('BlogComponent', () => {
   let component: BlogComponent;
   let fixture: ComponentFixture<BlogComponent>;
 
-  let dataSubject$ = new BehaviorSubject<Data>({});
+  const dataSubject$ = new BehaviorSubject<Data>({});
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -66,6 +66,7 @@ describe('BlogComponent', () => {
     const anchorsAway = TestBed.inject(AnchorService);
     jest.spyOn(anchorsAway, 'interceptClick');
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     component.onDocumentClick({});
 

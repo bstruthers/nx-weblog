@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as exp from 'constants';
 
 import { AnchorService } from './anchor.service';
 
@@ -97,6 +96,7 @@ describe('AnchorService', () => {
 
   it('should have a method to navigate', () => {
     jest.spyOn(service, 'getUrlTree').mockReturnValue(
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       {}
     );
@@ -129,6 +129,7 @@ describe('AnchorService', () => {
       },
     };
     mockEvent.target.href = 'test';
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     service.interceptClick(mockEvent);
 
@@ -137,6 +138,7 @@ describe('AnchorService', () => {
 
     // Anchor that's internal
     jest.spyOn(service, 'isExternalUrl').mockReturnValue(false);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     service.interceptClick(mockEvent);
 

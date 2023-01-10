@@ -85,11 +85,9 @@
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "apps/blog/src/**/*.ts",
-              "apps/blog/src/**/*.html"
-            ]
+            "lintFilePatterns": ["apps/blog/**/*.ts", "apps/blog/**/*.html"]
           }
         },
         "test": {

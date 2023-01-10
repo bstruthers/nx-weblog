@@ -3,7 +3,6 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { stringify } from 'querystring';
 
 import { StructureResolver } from './structure.resolver';
 

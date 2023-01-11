@@ -18,6 +18,10 @@ jobs:
           cmd: install
       - uses: mansagroup/nrwl-nx-action@v3
         with:
-          targets: lint,test,build,e2e
+          targets: lint,test,e2e
           all: 'true'
-          args: '--all'
+      - uses: mansagroup/nrwl-nx-action@v3
+        with:
+          targets: build
+          all: 'true'
+          args: '--prod'

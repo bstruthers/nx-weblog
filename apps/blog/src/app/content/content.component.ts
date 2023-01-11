@@ -8,7 +8,9 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+
 import { Subject, takeUntil } from 'rxjs';
+
 import { AnchorService } from '../anchor.service';
 
 @Component({
@@ -41,7 +43,7 @@ export class ContentComponent implements OnInit, OnDestroy {
         );
       }
 
-      this.changeDetectionRef.detectChanges();
+      this.changeDetectionRef.markForCheck();
     });
   }
 

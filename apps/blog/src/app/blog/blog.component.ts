@@ -10,6 +10,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
 import { Subject, takeUntil } from 'rxjs';
+
 import { AnchorService } from '../anchor.service';
 
 @Component({
@@ -42,7 +43,7 @@ export class BlogComponent implements OnInit, OnDestroy {
       this.sidebar = data['structure'].sidebar;
       this.footer = data['structure'].footer;
 
-      this.changeDetectionRef.detectChanges();
+      this.changeDetectionRef.markForCheck();
     });
   }
 

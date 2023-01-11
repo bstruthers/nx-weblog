@@ -24,7 +24,7 @@ describe('ContentResolver', () => {
     expect(resolver).toBeTruthy();
   });
 
-  it('should get post data when there is a year, month, and slug', () => {
+  it('should get post content when there is a year, month, and slug', () => {
     const route = new ActivatedRouteSnapshot();
     route.data = {
       contentFile: '',
@@ -47,7 +47,7 @@ describe('ContentResolver', () => {
     httpMock.verify();
   });
 
-  it('should get post data when there is just a slug', () => {
+  it('should get post content when there is just a slug', () => {
     const route = new ActivatedRouteSnapshot();
     route.data = {
       contentFile: '',
@@ -66,7 +66,7 @@ describe('ContentResolver', () => {
     httpMock.verify();
   });
 
-  it('should get tag data', () => {
+  it('should get tag content', () => {
     const route = new ActivatedRouteSnapshot();
     route.data = {
       contentFile: '',

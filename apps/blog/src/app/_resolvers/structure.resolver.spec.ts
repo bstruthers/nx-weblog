@@ -23,7 +23,7 @@ describe('StructureResolver', () => {
     expect(resolver).toBeTruthy();
   });
 
-  it('should get the structure', () => {
+  it('should get the structure content', () => {
     resolver.resolve().subscribe((structure) => {
       expect(structure['header']).toBe('# header');
       expect(structure['sidebar']).toBe('# sidebar');

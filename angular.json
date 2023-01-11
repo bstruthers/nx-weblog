@@ -109,7 +109,7 @@
         "e2e": {
           "builder": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/blog-e2e/cypress.json",
+            "cypressConfig": "apps/blog-e2e/cypress.config.js",
             "devServerTarget": "blog:serve:development"
           },
           "configurations": {

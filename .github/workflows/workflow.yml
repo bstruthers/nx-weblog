@@ -1,0 +1,23 @@
+name: Validate
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+      - uses: mansagroup/nrwl-nx-action@v3
+        with:
+          targets: lint,test,build,e2e
+          all: 'true'
+          args: '--all'

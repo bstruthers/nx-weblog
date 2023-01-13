@@ -85,6 +85,31 @@ describe('ContentResolver', () => {
     httpMock.verify();
   });
 
+  it('should check the archive for missing files', () => {
+    const route = new ActivatedRouteSnapshot();
+    route.data = {
+      contentFile: '',
+    };
+    route.params = {
+      tag: 'tag',
+    };
+
+    const router = TestBed.inject(Router);
+    jest.spyOn(router, 'navigate').mockImplementation();
+
+    resolver.resolve(route).subscribe((content) => {
+      expect(content).toBe('');
+    });
+
+    const request = httpMock.expectOne('/assets/content/tags/tag.md');
+    request.flush('', {
+      status: 404,
+      statusText: 'Not Found',
+    });
+
+    expect(router.navigate).toHaveBeenCalledWith(['not-found']);
+  });
+
   it('should handle errors', () => {
     const route = new ActivatedRouteSnapshot();
     route.data = {

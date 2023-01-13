@@ -69,6 +69,26 @@ import { BlogComponent } from './blog/blog.component';
               },
             },
             {
+              path: 'posts/:year/:month/:day/:slug',
+              component: ContentComponent,
+              resolve: {
+                content: ContentResolver,
+              },
+            },
+            {
+              path: 'archived',
+              children: [
+                {
+                  path: '**',
+                  component: ContentComponent,
+                  data: { contentFile: 'archived' },
+                  resolve: {
+                    content: ContentResolver,
+                  },
+                },
+              ],
+            },
+            {
               path: 'posts/:slug',
               component: ContentComponent,
               resolve: {

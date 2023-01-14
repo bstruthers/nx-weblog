@@ -15,6 +15,6 @@ describe('When rendering a tag', () => {
   it('should go to the not found page when the tag does not exist', () => {
     cy.intercept('assets/tags/not-found', { statusCode: 404 });
     cy.visit('/tags/not-found', { failOnStatusCode: false });
-    cy.url().should('equal', 'http://localhost:4200/not-found');
+    cy.url().should('equal', 'http://localhost:4200/tags/not-found');
   });
 });

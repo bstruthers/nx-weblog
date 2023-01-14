@@ -3,12 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import {
-  ActivatedRouteSnapshot,
-  convertToParamMap,
-  Router,
-  UrlSegment,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, UrlSegment } from '@angular/router';
 
 import { ContentResolver } from './content.resolver';
 

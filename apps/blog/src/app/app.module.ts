@@ -77,6 +77,9 @@ import { BlogComponent } from './blog/blog.component';
             },
             {
               path: 'archived',
+              resolve: {
+                config: ConfigResolver, // resolve the config again because of the nesting
+              },
               children: [
                 {
                   path: '**',

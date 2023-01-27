@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Title } from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Data } from '@angular/router';
 
 import { MarkdownModule } from 'ngx-markdown';
@@ -14,6 +14,11 @@ describe('ContentComponent', () => {
   let component: ContentComponent;
 
   const dataSubject$ = new BehaviorSubject<Data>({});
+  const parentDataSubject$ = new BehaviorSubject<Data>({
+    config: {
+      title: 'Base Title',
+    },
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -24,6 +29,16 @@ describe('ContentComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             data: dataSubject$.asObservable(),
+            parent: {
+              data: parentDataSubject$.asObservable(),
+            },
+          },
+        },
+        {
+          provide: DomSanitizer,
+          useValue: {
+            sanitize: () => 'safeString',
+            bypassSecurityTrustHtml: () => 'safeString',
           },
         },
       ],
@@ -41,22 +56,24 @@ describe('ContentComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should combine the content title with the existing title', () => {
+  it('should combine the content title with the base title', () => {
     const title = TestBed.inject(Title);
     jest.spyOn(title, 'setTitle');
-    jest.spyOn(title, 'getTitle').mockReturnValue('Get Title');
 
-    dataSubject$.next({ content: '# Content Title' });
+    dataSubject$.next({
+      content: '# Content Title',
+    });
 
-    expect(title.setTitle).toHaveBeenCalledWith('Content Title — Get Title');
+    expect(title.setTitle).toHaveBeenCalledWith('Content Title — Base Title');
   });
 
-  it('should not combine the content title with the existing title when there is no title', () => {
+  it('should not combine the content title with the base title when there is no title', () => {
     const title = TestBed.inject(Title);
     jest.spyOn(title, 'setTitle');
-    jest.spyOn(title, 'getTitle').mockReturnValue('Get Title');
 
-    dataSubject$.next({ content: 'Not a Content Title' });
+    dataSubject$.next({
+      content: 'Not a Content Title',
+    });
 
     expect(title.setTitle).not.toHaveBeenCalled();
   });

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 
 import { catchError, Observable } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { catchError, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ContentResolver implements Resolve<string> {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<string> {
     let content = route.data['contentFile'];

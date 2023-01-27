@@ -7,9 +7,9 @@ import {
   HostListener,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Data } from '@angular/router';
 
-import { Subject, takeUntil } from 'rxjs';
+import { combineLatest, Subject, takeUntil } from 'rxjs';
 
 import { AnchorService } from '../anchor.service';
 
@@ -26,25 +26,35 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private title: Title,
+    private titleService: Title,
     private changeDetectionRef: ChangeDetectorRef,
     private anchorService: AnchorService
   ) {}
 
   ngOnInit(): void {
-    this.route.data.pipe(takeUntil(this.unsubscribe$)).subscribe((d) => {
-      this.content = d['content'];
+    combineLatest([
+      // @ts-expect-error 2341
+      this.route.parent.data,
+      this.route.data,
+    ])
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((routeData: [Data, Data]) => {
+        const parentData = routeData[0];
+        const data = routeData[1];
 
-      // Update the title with the header of the content
-      const split = this.content.split('\n');
-      if (split.length && split[0].startsWith('# ')) {
-        this.title.setTitle(
-          `${split[0].replace('# ', '')} — ${this.title.getTitle()}`
-        );
-      }
+        const baseTitle = parentData['config'].title;
+        this.content = data['content'];
 
-      this.changeDetectionRef.markForCheck();
-    });
+        // Update the title with the header of the content
+        const split = this.content.split('\n');
+        if (split.length && split[0].startsWith('# ')) {
+          this.titleService.setTitle(
+            `${split[0].replace('# ', '')} — ${baseTitle}`
+          );
+        }
+
+        this.changeDetectionRef.markForCheck();
+      });
   }
 
   @HostListener('click', ['$event'])
